@@ -4,28 +4,33 @@ import java.util.Arrays;
 
 public class Diamond {
 
-	public String print(int n) {
-		if (n <= 0 || n % 2 == 0) {
+	public String getDiamond(int diamondWidth) {
+		if (diamondWidth <= 0 || diamondWidth % 2 == 0) {
 			return null;
 		}
-		StringBuilder builder = new StringBuilder(new String(make(n, n)));
-		for (int i = n - 2; i > 0; i -= 2) {
-			char[] chars = make(n, i);
+		char[] centerLine = makeLine(diamondWidth, diamondWidth);
+		StringBuilder builder = new StringBuilder(new String(centerLine));
+
+		for (int oddLineIndex = diamondWidth - 2; oddLineIndex > 0; oddLineIndex -= 2) {
+			char[] chars = makeLine(diamondWidth, oddLineIndex);
 			builder.insert(0, chars);
 			builder.append(chars);
 		}
 		return builder.toString();
 	}
 
-	private char[] make(int i, int j) {
-		int amount = ((i - j) / 2);
-		char[] chars = new char[amount + j + 1];
-		if (amount > 0) {
-			Arrays.fill(chars, 0, amount, ' ');
-		}
-		Arrays.fill(chars, amount, amount + j, '*');
-		chars[chars.length - 1] = '\n';
+	private char[] makeLine(int diamondWidth, int stars) {
+		int spaces = ((diamondWidth - stars) / 2);
+		char[] chars = new char[spaces + stars + 1];
+		
+		fillLine(chars, stars, spaces);
 		return chars;
+	}
+
+	private void fillLine(char[] chars, int stars, int spaces) {
+		Arrays.fill(chars, 0, spaces, ' ');
+		Arrays.fill(chars, spaces, spaces + stars, '*');
+		chars[chars.length - 1] = '\n';
 	}
 
 }
