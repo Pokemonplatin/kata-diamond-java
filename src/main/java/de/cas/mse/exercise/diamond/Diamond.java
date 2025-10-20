@@ -1,31 +1,49 @@
 package de.cas.mse.exercise.diamond;
 
-import java.util.Arrays;
-
 public class Diamond {
 
-	public String print(int n) {
-		if (n <= 0 || n % 2 == 0) {
+	private static final String DIAMOND_SYMBOL = "*";
+
+	public String print(int width) {
+		if (isInvalidWidth(width)) {
 			return null;
 		}
-		StringBuilder builder = new StringBuilder(new String(make(n, n)));
-		for (int i = n - 2; i > 0; i -= 2) {
-			char[] chars = make(n, i);
-			builder.insert(0, chars);
-			builder.append(chars);
-		}
+
+		StringBuilder builder = new StringBuilder();
+
+		appendUpperHalf(width, builder);
+		appendMiddleLine(width, builder);
+		appendLowerHalf(width, builder);
+
 		return builder.toString();
 	}
 
-	private char[] make(int i, int j) {
-		int amount = ((i - j) / 2);
-		char[] chars = new char[amount + j + 1];
-		if (amount > 0) {
-			Arrays.fill(chars, 0, amount, ' ');
+	private void appendUpperHalf(int width, StringBuilder builder) {
+		for (int symbolCount = 1; symbolCount < width; symbolCount += 2) {
+			var line = createSymbolsLine(symbolCount, width);
+			builder.append(line);
 		}
-		Arrays.fill(chars, amount, amount + j, '*');
-		chars[chars.length - 1] = '\n';
-		return chars;
+	}
+
+	private void appendMiddleLine(int width, StringBuilder builder) {
+		var middleLine = createSymbolsLine(width, width);
+		builder.append(middleLine);
+	}
+
+	private void appendLowerHalf(int width, StringBuilder builder) {
+		for (int symbolCount = width-2; symbolCount >= 1; symbolCount -= 2) {
+			var line = createSymbolsLine(symbolCount, width);
+			builder.append(line);
+		}
+	}
+
+	private String createSymbolsLine(int symbolCount, int width) {
+		int leftPaddingCount = ((width - symbolCount) / 2);
+		return " ".repeat(leftPaddingCount) + DIAMOND_SYMBOL.repeat(symbolCount) + "\n";
+	}
+
+	private boolean isInvalidWidth(int width) {
+		return width <= 0 || width % 2 == 0;
 	}
 
 }
