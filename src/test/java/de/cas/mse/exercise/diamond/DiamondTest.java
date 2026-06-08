@@ -13,7 +13,7 @@ public class DiamondTest {
 		expected.append("***\n");
 		expected.append(" *\n");
 
-		String actual = new Diamond().print(3);
+		String actual = new Diamond().generateStringOrNull(3);
 		assertEquals(expected.toString(), actual);
 		System.out.println(actual);
 	}
@@ -27,23 +27,23 @@ public class DiamondTest {
 		expected.append(" ***\n");
 		expected.append("  *\n");
 
-		String actual = new Diamond().print(5);
+		String actual = new Diamond().generateStringOrNull(5);
 		assertEquals(expected.toString(), actual);
 		System.out.println(actual);
 	}
 
 	@Test
 	public void diamond0_shouldReturnNull() {
-		assertEquals(null, new Diamond().print(0));
+		assertEquals(null, new Diamond().generateStringOrNull(0));
 	}
 
 	@Test
 	public void diamondNegative_shouldReturnNull() {
-		assertEquals(null, new Diamond().print(-1));
+		assertEquals(null, new Diamond().generateStringOrNull(-1));
 	}
 
 	@Test
 	public void diamondEven_shouldReturnNull() {
-		assertEquals(null, new Diamond().print(10));
+		assertEquals(null, new Diamond().generateStringOrNull(10));
 	}
 }

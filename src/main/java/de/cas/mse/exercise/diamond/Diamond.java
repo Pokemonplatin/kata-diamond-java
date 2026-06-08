@@ -4,28 +4,29 @@ import java.util.Arrays;
 
 public class Diamond {
 
-	public String print(int n) {
-		if (n <= 0 || n % 2 == 0) {
+	public String generateStringOrNull(int diamondWidth) {
+		if (diamondWidth <= 0 || diamondWidth % 2 == 0) {
 			return null;
 		}
-		StringBuilder builder = new StringBuilder(new String(make(n, n)));
-		for (int i = n - 2; i > 0; i -= 2) {
-			char[] chars = make(n, i);
-			builder.insert(0, chars);
-			builder.append(chars);
+		String middleLine = generateLine(diamondWidth, diamondWidth);
+		StringBuilder builder = new StringBuilder(middleLine);
+		for (int currentIdxFromCenter = 1; currentIdxFromCenter <= (diamondWidth / 2); currentIdxFromCenter++) {
+			int currentDiamondWidth = diamondWidth - (currentIdxFromCenter * 2);
+			String currentLine = generateLine(diamondWidth, currentDiamondWidth);
+			builder.insert(0, currentLine);
+			builder.append(currentLine);
 		}
 		return builder.toString();
 	}
 
-	private char[] make(int i, int j) {
-		int amount = ((i - j) / 2);
-		char[] chars = new char[amount + j + 1];
-		if (amount > 0) {
-			Arrays.fill(chars, 0, amount, ' ');
+	private String generateLine(int maximumWidth, int currentWidth) {
+		int leftPadding = ((maximumWidth - currentWidth) / 2);
+		char[] chars = new char[leftPadding + currentWidth + 1];
+		if (leftPadding > 0) {
+			Arrays.fill(chars, 0, leftPadding, ' ');
 		}
-		Arrays.fill(chars, amount, amount + j, '*');
+		Arrays.fill(chars, leftPadding, leftPadding + currentWidth, '*');
 		chars[chars.length - 1] = '\n';
-		return chars;
+		return new String(chars);
 	}
-
 }
